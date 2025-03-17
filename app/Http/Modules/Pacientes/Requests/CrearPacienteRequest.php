@@ -35,7 +35,9 @@ class CrearPacienteRequest extends FormRequest
             'tipo_documento_id' => 'required|exists:tipos_documentos,id',
             'empresa_id' => 'required|exists:empresas,id',
             'estatura' => 'required|numeric',
-            'estado_id' => 'required|exists:estados,id'
+            'estado_id' => 'required|exists:estados,id',
+            'email' => 'required|email',
+            'numero_documento' => 'required|integer|unique:users,numero_documento'
         ];
     }
 

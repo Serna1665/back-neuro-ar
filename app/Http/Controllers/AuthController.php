@@ -31,7 +31,7 @@ class AuthController extends Controller
 
         $token = $user->createToken('auth_token')->plainTextToken;
 
-        return response()->json(['token' => $token], 201);
+        return response()->json(['usuario' => $user], 201);
     }
 
     /**
@@ -42,19 +42,44 @@ class AuthController extends Controller
      */
     public function login(Request $request)
     {
+        // Validamos que el correo esté presente
         $request->validate([
             'email' => 'required|email',
-            'password' => 'required',
         ]);
 
-        $user = User::where('email', $request->email)->first();
+        // Buscar los usuarios con el mismo email
+        $users = User::where('email', $request->email)->get();
 
-        if (!$user || !Hash::check($request->password, $user->password)) {
-            throw ValidationException::withMessages([
-                'email' => ['Las credenciales son incorrectas.'],
-            ]);
+        if ($users->isEmpty()) {
+            return response()->json(['error' => 'No se encontró ninguna cuenta con este correo.'], 401);
         }
 
+        if ($users->count() > 1) {
+            $request->validate([
+                'numero_documento' => 'required',
+                'password' => 'required',
+            ]);
+
+            $user = User::where('email', $request->email)
+                ->where('numero_documento', $request->numero_documento)
+                ->first();
+
+            if (!$user) {
+                return response()->json(['error' => 'Número de documento no encontrado.'], 404);
+            }
+        } else {
+            $request->validate([
+                'password' => 'required',
+            ]);
+
+            $user = $users->first();
+        }
+
+        if (!$user || !Hash::check($request->password, $user->password)) {
+            return response()->json(['error' => 'Las credenciales son incorrectas.'], 401);
+        }
+
+        // Generamos el token de autenticación
         $token = $user->createToken('auth_token')->plainTextToken;
 
         return response()->json([
@@ -63,6 +88,7 @@ class AuthController extends Controller
                 'id' => $user->id,
                 'name' => $user->name,
                 'email' => $user->email,
+                'documento' => $user->documento,
                 'created_at' => $user->created_at,
             ]
         ]);
@@ -79,5 +105,21 @@ class AuthController extends Controller
         $request->user()->tokens()->delete();
 
         return response()->json(['message' => 'Sesión cerrada correctamente']);
+    }
+
+    /**
+     * Funcion para validar cuantos usuarios tiene el numero de documento ingresado
+     *
+     * @param  mixed $request
+     * @return void
+     */
+    public function validarEmail(Request $request)
+    {
+        try {
+            $emails = User::where('email', $request[0])->get();
+            return response()->json($emails);
+        } catch (\Throwable $th) {
+            return response()->json(['error' => $th->getMessage()], 400);
+        }
     }
 }
