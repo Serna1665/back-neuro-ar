@@ -16,7 +16,7 @@ class PacientesController extends Controller
     public function CrearPacientes(CrearPacienteRequest $request)
     {
         try {
-            $paciente = $this->pacientesService->crearPaciente($request->validated());
+            $paciente = $this->pacientesService->registrarUsuarioYPaciente($request->validated());
             return response()->json($paciente, 201);
         } catch (\Throwable $th) {
             return response()->json(['error' => $th->getMessage()], 500);
