@@ -30,3 +30,10 @@ foreach (glob(__DIR__ . '/Pacientes/*.php') as $filename) {
 foreach (glob(__DIR__ . '/Oficios/*.php') as $filename) {
     require_once $filename;
 }
+
+foreach (glob(__DIR__ . '/Roles/*.php') as $filename) {
+    require_once $filename;
+}
+foreach (glob(__DIR__ . '/Permisos/*.php') as $filename) {
+    require_once $filename;
+}
