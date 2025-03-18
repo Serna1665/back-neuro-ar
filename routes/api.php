@@ -22,3 +22,10 @@ Route::middleware('auth:sanctum')->group(function () {
 foreach (glob(__DIR__ . '/Pacientes/*.php') as $filename) {
     require_once $filename;
 }
+
+foreach (glob(__DIR__ . '/Roles/*.php') as $filename) {
+    require_once $filename;
+}
+foreach (glob(__DIR__ . '/Permisos/*.php') as $filename) {
+    require_once $filename;
+}
