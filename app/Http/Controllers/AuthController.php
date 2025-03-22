@@ -42,12 +42,10 @@ class AuthController extends Controller
      */
     public function login(Request $request)
     {
-        // Validamos que el correo esté presente
         $request->validate([
             'email' => 'required|email',
         ]);
 
-        // Buscar los usuarios con el mismo email
         $users = User::where('email', $request->email)->get();
 
         if ($users->isEmpty()) {
@@ -82,6 +80,9 @@ class AuthController extends Controller
         // Generamos el token de autenticación
         $token = $user->createToken('auth_token')->plainTextToken;
 
+        $roles = $user->getRoleNames();
+        $permissions = $user->getAllPermissions()->pluck('name');
+
         return response()->json([
             'token' => $token,
             'user' => [
@@ -90,9 +91,12 @@ class AuthController extends Controller
                 'email' => $user->email,
                 'documento' => $user->documento,
                 'created_at' => $user->created_at,
+                'roles' => $roles,
+                'permissions' => $permissions,
             ]
         ]);
     }
+
 
     /**
      * Funcion para cerrar sesion
