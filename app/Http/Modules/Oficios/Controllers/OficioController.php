@@ -87,4 +87,14 @@ class OficioController extends Controller
             return response()->json(['error' => $th->getMessage()], 400);
         }
     }
+
+    public function buscarOficios(Request $request)
+    {
+        try {
+            $oficios = $this->oficioRepository->buscarOficios($request);
+            return response()->json($oficios);
+        } catch (\Throwable $th) {
+            return response()->json(['error' => $th->getMessage()], 400);
+        }
+    }
 }

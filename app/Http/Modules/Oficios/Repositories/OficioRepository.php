@@ -15,4 +15,16 @@ class OficioRepository
     {
         return Oficios::all();
     }
+
+
+    /**
+     * Busca oficios por nombre con un LIKE.
+     *
+     * @param string $nombre El nombre o parte del nombre a buscar.
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
+    public function buscarOficios($nombre)
+    {
+        return Oficios::where('nombre', 'LIKE', '%' . $nombre . '%')->get();
+    }
 }
