@@ -24,7 +24,6 @@ class CrearPacienteRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'user_id' => 'required|exists:users,id',
             'nombres' => 'required|string',
             'apellidos' => 'required|string',
             'fecha_nacimiento' => 'required|date',
