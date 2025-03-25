@@ -37,3 +37,15 @@ foreach (glob(__DIR__ . '/Roles/*.php') as $filename) {
 foreach (glob(__DIR__ . '/Permisos/*.php') as $filename) {
     require_once $filename;
 }
+
+foreach (glob(__DIR__ . '/Paises/*.php') as $filename) {
+    require_once $filename;
+}
+
+foreach (glob(__DIR__ . '/Municipios/*.php') as $filename) {
+    require_once $filename;
+}
+
+foreach (glob(__DIR__ . '/Departamentos/*.php') as $filename) {
+    require_once $filename;
+}
