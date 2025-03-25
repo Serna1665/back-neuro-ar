@@ -2,6 +2,7 @@
 
 namespace App\Http\Modules\Pacientes\Models;
 
+use App\Http\Modules\Oficios\Models\Oficios;
 use Illuminate\Database\Eloquent\Model;
 
 class Pacientes extends Model
@@ -20,4 +21,9 @@ class Pacientes extends Model
         'estatura',
         'estado_id'
     ];
+
+    public function oficio()
+    {
+        return $this->belongsTo(Oficios::class, 'oficio_id');
+    }
 }
