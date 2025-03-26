@@ -25,9 +25,13 @@ class MunicipioController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function index()
+    public function index($departamento = null)
     {
-        $municipios = $this->municipioRepository->getAll();
+        if ($departamento) {
+            $municipios = $this->municipioRepository->getByDepartamento($departamento);
+        } else {
+            $municipios = $this->municipioRepository->getAll();
+        }
 
         return response()->json($municipios);
     }
