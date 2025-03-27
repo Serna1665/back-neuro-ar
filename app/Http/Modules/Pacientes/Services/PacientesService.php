@@ -36,7 +36,8 @@ class PacientesService
                 'tipo_documento_id' => $request['tipo_documento_id'],
                 'empresa_id' => $request['empresa_id'],
                 'estatura' => $request['estatura'],
-                'estado_id' => 1
+                'estado_id' => 1,
+                'usa_lentes' => $request['usa_lentes'],
             ];
 
             $paciente = Pacientes::create($pacienteData);
