@@ -18,6 +18,7 @@ class Pacientes extends Model
         'tipo_documento_id',
         'empresa_id',
         'estatura',
-        'estado_id'
+        'estado_id',
+        'usa_lentes'
     ];
 }
