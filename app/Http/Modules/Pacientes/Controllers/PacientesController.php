@@ -7,6 +7,7 @@ use App\Http\Modules\Pacientes\Repositories\pacienteRepository;
 use App\Http\Modules\Pacientes\Requests\CrearPacienteRequest;
 use App\Http\Modules\Pacientes\Services\PacientesService;
 use Illuminate\Http\Request;
+use PhpParser\Builder\Function_;
 
 class PacientesController extends Controller
 {
@@ -42,6 +43,16 @@ class PacientesController extends Controller
             return response()->json($paciente);
         } catch (\Throwable $th) {
             return response()->json(['error' => $th->getMessage()], 400);
+        }
+    }
+
+    public function actualizarDatos(Request $request)
+    {
+        try {
+            $actualizar = $this->pacientesService->actualizarPaciente($request->all());
+            return response()->json($actualizar);
+        } catch (\Throwable $th) {
+            return response()->json(['erorr' => $th->getMessage()], 400);
         }
     }
 }

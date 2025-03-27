@@ -39,6 +39,6 @@ class pacienteRepository
      */
     public function datosPaciente($user_id)
     {
-        return Pacientes::where('user_id', $user_id)->first();
+        return Pacientes::where('user_id', $user_id)->with(['municipio'])->first();
     }
 }

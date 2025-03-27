@@ -45,4 +45,43 @@ class PermisosController extends Controller
         }
     }
 
+    public function listarPermisos()
+    {
+        try {
+            $permisos = $this->permisosServices->listar();
+            return response()->json($permisos);
+        } catch (\Throwable $th) {
+            return response()->json(['error' => $th->getMessage()], 400);
+        }
+    }
+
+    public function listarPermisosDeUsuario($user_id)
+    {
+        try {
+            $permisos = $this->permisosServices->listarPermisosDeUsuario($user_id);
+            return response()->json($permisos);
+        } catch (\Throwable $th) {
+            return response()->json(['error' => $th->getMessage()], 400);
+        }
+    }
+
+    public function actualizarPermisos($id, Request $request)
+    {
+        try {
+            $permisos = $this->permisosServices->actualizarPermiso($id, $request->all());
+            return response()->json($permisos);
+        } catch (\Throwable $th) {
+            return response()->json(['error' => $th->getMessage()], 400);
+        }
+    }
+
+    public function listarPermisosRol($id)
+    {
+        try {
+            $permisos = $this->permisosServices->listarPermisosDeRole($id);
+            return response()->json($permisos);
+        } catch (\Throwable $th) {
+            return response()->json(['error' => $th->getMessage()], 400);
+        }
+    }
 }
