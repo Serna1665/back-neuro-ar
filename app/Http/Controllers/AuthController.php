@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
 
@@ -125,5 +126,29 @@ class AuthController extends Controller
         } catch (\Throwable $th) {
             return response()->json(['error' => $th->getMessage()], 400);
         }
+    }
+
+    public function me(Request $request)
+    {
+        $user = Auth::user();
+
+        if (!$user) {
+            return response()->json(['error' => 'Usuario no autenticado'], 401);
+        }
+
+        $roles = $user->getRoleNames();
+        $permissions = $user->getAllPermissions()->pluck('name');
+
+        return response()->json([
+            'user' => [
+                'id' => $user->id,
+                'name' => $user->name,
+                'email' => $user->email,
+                'documento' => $user->documento,
+                'created_at' => $user->created_at,
+                'roles' => $roles,
+                'permissions' => $permissions,
+            ]
+        ]);
     }
 }

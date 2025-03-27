@@ -24,8 +24,9 @@ class AsignarPermisoRoleRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'role_id' => 'required|exists:roles,name',
-            'permiso' => 'required|exists:permissions,name',
+            'role_id' => 'required|exists:roles,id',
+            'permiso' => 'required|array',
+            'permiso' => 'exists:permissions,id'
         ];
     }
 

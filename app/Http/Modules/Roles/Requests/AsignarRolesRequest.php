@@ -25,7 +25,8 @@ class AsignarRolesRequest extends FormRequest
     {
         return [
             'user_id' => 'required|integer|exists:users,id',
-            'role_id' => 'required|integer|exists:roles,id'
+            'role_id' => 'required|array',
+            'role_id' => 'exists:roles,id'
         ];
     }
 
