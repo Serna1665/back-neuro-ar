@@ -25,7 +25,7 @@ class AsignarPermisoUserRequest extends FormRequest
     {
         return [
             'user_id' => 'required|exists:users,id',
-            'permiso' => 'required|exists:permissions,name',
+            'permiso' => 'required',
         ];
     }
 

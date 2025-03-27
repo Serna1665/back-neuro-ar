@@ -33,4 +33,34 @@ class RolesController extends Controller
             return response()->json(['error' => $th->getMessage()], 400);
         }
     }
+
+    public function listar()
+    {
+        try {
+            $role = $this->rolesService->listar();
+            return response()->json($role);
+        } catch (\Throwable $th) {
+            return response()->json(['error' => $th->getMessage()], 400);
+        }
+    }
+
+    public function listarRolesUsuario($user_id)
+    {
+        try {
+            $role = $this->rolesService->ListarRolesUsuario($user_id);
+            return response()->json($role);
+        } catch (\Throwable $th) {
+            return response()->json(['error' => $th->getMessage()], 400);
+        }
+    }
+
+    public function actualizar($id, Request $request)
+    {
+        try {
+            $role = $this->rolesService->actualizarRole($id, $request->all());
+            return response()->json($role);
+        } catch (\Throwable $th) {
+            return response()->json(['error' => $th->getMessage()], 400);
+        }
+    }
 }
