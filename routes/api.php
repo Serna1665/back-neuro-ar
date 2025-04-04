@@ -51,3 +51,11 @@ foreach (glob(__DIR__ . '/Municipios/*.php') as $filename) {
 foreach (glob(__DIR__ . '/Departamentos/*.php') as $filename) {
     require_once $filename;
 }
+
+foreach (glob(__DIR__ . '/Sedes/*.php') as $filename) {
+    require_once $filename;
+}
+
+foreach (glob(__DIR__ . '/Estados/*.php') as $filename) {
+    require_once $filename;
+}
