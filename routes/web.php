@@ -8,5 +8,9 @@ Route::get('/', function () {
 });
 
 Route::post('/saludo', function (Request $request) {
-    return response()->json(['imagen' => 'http://srv743319.hstgr.cloud:8000/static/visualizacion_usuario_13.png']);
+    $userId = $request->input('user_id');
+
+    $url = "http://srv743319.hstgr.cloud:8000/static/visualizacion_usuario_{$userId}.png";
+
+    return response()->json(['imagen' => $url]);
 });

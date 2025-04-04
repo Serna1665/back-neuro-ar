@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Modules\paises\Repositories;
+namespace App\Http\Modules\Paises\Repositories;
 
 use App\Http\Modules\Paises\Models\Pais;
 

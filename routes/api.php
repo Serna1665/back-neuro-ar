@@ -9,7 +9,11 @@ Route::get('/user', function (Request $request) {
 })->middleware('auth:sanctum');
 
 Route::post('/saludo', function (Request $request) {
-    return response()->json(['imagen' => 'http://srv743319.hstgr.cloud:8000/static/visualizacion_usuario_13.png']);
+    $userId = $request->input('user_id');
+
+    $url = "http://srv743319.hstgr.cloud:8000/static/visualizacion_usuario_{$userId}.png";
+
+    return response()->json(['imagen' => $url]);
 });
 
 Route::post('/register', [AuthController::class, 'register']);
@@ -49,5 +53,9 @@ foreach (glob(__DIR__ . '/Municipios/*.php') as $filename) {
 }
 
 foreach (glob(__DIR__ . '/Departamentos/*.php') as $filename) {
+    require_once $filename;
+}
+
+foreach (glob(__DIR__ . '/Empresas/*.php') as $filename) {
     require_once $filename;
 }
