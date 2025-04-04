@@ -7,24 +7,24 @@ use App\Http\Modules\Empresas\Models\Empresas;
 class EmpresaRepository
 {
     /**
-     * Obtiene todos los registros de empresas.
-     *
-     * @return \Illuminate\Database\Eloquent\Collection
+     * Obtiene todas las empresas activas (estado_id = 1).
      */
-    public function getAll()
+    public function listarTodas()
     {
         return Empresas::all();
     }
 
+    public function listarActivas()
+    {
+        return Empresas::where('estado_id', 1)->get();
+    }
+
 
     /**
-     * Busca empresas por nombre con un LIKE.
-     *
-     * @param string $nombre El nombre o parte del nombre a buscar.
-     * @return \Illuminate\Database\Eloquent\Collection
+     * Obtiene una empresa por ID.
      */
-    public function buscarEmpresas($nombre)
+    public function findById($id)
     {
-        return Empresas::where('nombre', 'LIKE', '%' . $nombre . '%')->get();
+        return Empresas::findOrFail($id);
     }
 }
