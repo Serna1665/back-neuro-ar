@@ -60,3 +60,11 @@ $empresaRoutes = glob(__DIR__ . '/Empresas/*.php');
 foreach ($empresaRoutes as $routeFile) {
     require_once $routeFile;
 }
+
+foreach (glob(__DIR__ . '/Sedes/*.php') as $filename) {
+    require_once $filename;
+}
+
+foreach (glob(__DIR__ . '/Estados/*.php') as $filename) {
+    require_once $filename;
+}
