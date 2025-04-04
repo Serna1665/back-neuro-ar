@@ -13,11 +13,6 @@ class EmpresaController extends Controller
     protected $empresaRepository;
     protected $empresaService;
 
-    /**
-     * Inyección de dependencias del repositorio.
-     *
-     * @param empresaRepository $empresaRepository
-     */
     public function __construct(EmpresaRepository $empresaRepository, EmpresaService $empresaService)
     {
         $this->empresaRepository = $empresaRepository;
@@ -25,34 +20,36 @@ class EmpresaController extends Controller
     }
 
     /**
-     * Lista todos los registros de empresas.
-     *
-     * @return \Illuminate\Http\JsonResponse
+     * Lista todas las empresas activas.
      */
-    public function index()
+    public function listarActivas()
     {
-        $empresas = $this->empresaRepository->getAll();
+        $empresas = $this->empresaRepository->listarActivas();
+        return response()->json($empresas);
+    }
 
+    public function listarTodas()
+    {
+        $empresas = $this->empresaRepository->listarTodas();
         return response()->json($empresas);
     }
 
     /**
-     * Crear empresas
-     *
-     * @param  mixed $request
-     * @return void
-     * @author Serna
+     * Crea una nueva empresa.
      */
     public function crearEmpresas(EmpresaRequest $request)
     {
         try {
-            $empresas = $this->empresaService->crear($request->validated());
-            return response()->json($empresas, 201);
+            $empresa = $this->empresaService->crear($request->validated());
+            return response()->json($empresa, 201);
         } catch (\Throwable $th) {
             return response()->json(['error' => $th->getMessage()], 400);
         }
     }
 
+    /**
+     * Actualiza una empresa existente.
+     */
     public function actualizarEmpresa($id, Request $request)
     {
         try {
@@ -63,13 +60,11 @@ class EmpresaController extends Controller
         }
     }
 
-    public function buscarEmpresas(Request $request)
+    /**
+     * Cambia el estado de la empresa a inactivo en lugar de eliminarla.
+     */
+    public function cambiarEstadoEmpresa($id)
     {
-        try {
-            $empresas = $this->empresaRepository->buscarEmpresas($request);
-            return response()->json($empresas);
-        } catch (\Throwable $th) {
-            return response()->json(['error' => $th->getMessage()], 400);
-        }
+        return $this->empresaService->toggleEstado($id);
     }
 }
