@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Modules\Pacientes\Models\Pacientes;
@@ -9,20 +10,23 @@ Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:sanctum');
 
-Route::post('/saludo', function (Request $request) {
-    $pacienteId = $request->input('paciente_id');
+Route::get('/ver-imagen-usuario/{id}', function ($id) {
+    $response = Http::withHeaders([
+        'Content-Type' => 'application/json'
+    ])->post('http://147.93.40.32:8000/saludo', [
+        'clave_secreta' => 'shrek',
+        'user_id' => (int) $id
+    ]);
 
-    $paciente = Pacientes::find($pacienteId);
-
-    if (!$paciente || !$paciente->user_id) {
-        return response()->json(['error' => 'Paciente no encontrado o sin user_id'], 404);
+    if ($response->successful()) {
+        return response()->json([
+            'imagen_url' => $response['imagen']
+        ]);
+    } else {
+        return response()->json([
+            'error' => 'No se pudo obtener la imagen'
+        ], $response->status());
     }
-
-    $userId = $paciente->user_id;
-
-    $url = "http://srv743319.hstgr.cloud:8000/static/visualizacion_usuario_{$userId}.png";
-
-    return response()->json(['imagen' => $url]);
 });
 
 Route::post('/register', [AuthController::class, 'register']);
