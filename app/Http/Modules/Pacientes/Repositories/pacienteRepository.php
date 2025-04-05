@@ -41,4 +41,9 @@ class pacienteRepository
     {
         return Pacientes::where('user_id', $user_id)->with(['municipio'])->first();
     }
+
+    public function obtenerPacienteIdPorUserId($userId)
+    {
+        return Pacientes::where('user_id', $userId)->first();
+    }
 }

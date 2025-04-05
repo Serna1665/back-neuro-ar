@@ -1,15 +1,24 @@
 <?php
 
-use App\Http\Controllers\AuthController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AuthController;
+use App\Http\Modules\Pacientes\Models\Pacientes;
 
 Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:sanctum');
 
 Route::post('/saludo', function (Request $request) {
-    $userId = $request->input('user_id');
+    $pacienteId = $request->input('paciente_id');
+
+    $paciente = Pacientes::find($pacienteId);
+
+    if (!$paciente || !$paciente->user_id) {
+        return response()->json(['error' => 'Paciente no encontrado o sin user_id'], 404);
+    }
+
+    $userId = $paciente->user_id;
 
     $url = "http://srv743319.hstgr.cloud:8000/static/visualizacion_usuario_{$userId}.png";
 

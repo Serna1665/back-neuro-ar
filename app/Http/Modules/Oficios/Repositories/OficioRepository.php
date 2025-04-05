@@ -23,8 +23,11 @@ class OficioRepository
      * @param string $nombre El nombre o parte del nombre a buscar.
      * @return \Illuminate\Database\Eloquent\Collection
      */
-    public function buscarOficios($nombre)
+    public function buscarOficios(string $termino)
     {
-        return Oficios::where('nombre', 'LIKE', '%' . $nombre . '%')->get();
+        return Oficios::where('nombre', 'like', '%' . $termino . '%')
+            ->orderBy('nombre')
+            ->limit(20)
+            ->get(['id', 'nombre']);
     }
 }
