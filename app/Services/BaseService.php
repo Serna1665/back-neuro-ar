@@ -73,4 +73,22 @@ class BaseService
     {
         return $this->model->all();
     }
+
+    /**
+     * Cambia el estado_id de un registro entre 1 y 2
+     *
+     * @param int $id
+     * @return mixed
+     */
+    public function cambiarEstado(int $id)
+    {
+        $registro = $this->model->find($id);
+
+        if ($registro) {
+            $nuevoEstado = $registro->estado_id == 1 ? 2 : 1;
+            $registro->update(['estado_id' => $nuevoEstado]);
+            return $registro;
+        }
+        return null;
+    }
 }

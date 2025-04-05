@@ -38,6 +38,8 @@ class PacientesService
                 'estatura' => $request['estatura'],
                 'estado_id' => 1,
                 'usa_lentes' => $request['usa_lentes'],
+                'sede_id' => $request['sede_id'],
+                'dependencia_id' => $request['dependencia_id'],
             ];
 
             $paciente = Pacientes::create($pacienteData);
