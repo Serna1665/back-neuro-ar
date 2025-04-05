@@ -2,11 +2,13 @@
 
 namespace App\Http\Modules\Oficios\Controllers;
 
-use App\Http\Controllers\Controller;
-use App\Http\Modules\Oficios\Repositories\OficioRepository;
-use App\Http\Modules\Oficios\Request\CrearOficioRequest;
-use App\Http\Modules\Oficios\Service\OficioService;
 use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
+use App\Http\Controllers\Controller;
+use App\Http\Modules\Oficios\Models\Oficios;
+use App\Http\Modules\Oficios\Service\OficioService;
+use App\Http\Modules\Oficios\Request\CrearOficioRequest;
+use App\Http\Modules\Oficios\Repositories\OficioRepository;
 
 class OficioController extends Controller
 {
@@ -87,14 +89,22 @@ class OficioController extends Controller
             return response()->json(['error' => $th->getMessage()], 400);
         }
     }
-
-    public function buscarOficios(Request $request)
+    public function buscar(Request $request)
     {
         try {
-            $oficios = $this->oficioRepository->buscarOficios($request);
-            return response()->json($oficios);
+            $query = $request->input('q');
+
+            if (!$query || strlen($query) < 4) {
+                return response()->json([]);
+            }
+
+            return response()->json(
+                Oficios::where('nombre', 'like', "%{$query}%")
+                    ->limit(20)
+                    ->get()
+            );
         } catch (\Throwable $th) {
-            return response()->json(['error' => $th->getMessage()], 400);
+            return response()->json(['error' => 'Error al buscar oficios'], 500);
         }
     }
 }

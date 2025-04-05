@@ -55,4 +55,15 @@ class PacientesController extends Controller
             return response()->json(['erorr' => $th->getMessage()], 400);
         }
     }
+
+    public function obtenerPacienteIdPorUserId($userId)
+    {
+        $paciente = $this->pacienteRepository->obtenerPacienteIdPorUserId($userId);
+
+        if (!$paciente) {
+            return response()->json(['error' => 'Paciente no encontrado'], 404);
+        }
+
+        return response()->json(['paciente_id' => $paciente->id]);
+    }
 }
