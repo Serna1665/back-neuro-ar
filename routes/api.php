@@ -81,3 +81,8 @@ foreach (glob(__DIR__ . '/Sedes/*.php') as $filename) {
 foreach (glob(__DIR__ . '/Estados/*.php') as $filename) {
     require_once $filename;
 }
+
+foreach (glob(__DIR__ . '/Dependencias/*.php') as $filename) {
+    require_once $filename;
+}
+

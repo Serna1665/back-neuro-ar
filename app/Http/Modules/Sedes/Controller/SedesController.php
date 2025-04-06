@@ -42,4 +42,44 @@ class SedesController extends Controller
             return response()->json(['error' => $th->getMessage()], 400);
         }
     }
+
+    public function cambiarEstado(int $id)
+    {
+        try {
+            $sedes = $this->sedesService->cambiarEstado($id);
+            return response()->json($sedes);
+        } catch (\Throwable $th) {
+            return response()->json(['error' => $th->getMessage()], 400);
+        }
+    }
+
+    public function listarSedesPorEmpresa(int $empresa_id)
+    {
+        try {
+            $sedes = $this->sedesService->listarSedesPorEmpresa($empresa_id);
+            return response()->json($sedes);
+        } catch (\Throwable $th) {
+            return response()->json(['error' => $th->getMessage()], 400);
+        }
+    }
+
+    public function asignarDependencias(Request $request)
+    {
+        try {
+            $sedes = $this->sedesService->asignarDependencias($request->all());
+            return response()->json($sedes);
+        } catch (\Throwable $th) {
+            return response()->json(['error' => $th->getMessage()], 400);
+        }
+    }
+
+    public function listarDependenciasSede(int $sede_id)
+    {
+        try {
+            $sedes = $this->sedesService->obtenerSedeConDependencias($sede_id);
+            return response()->json($sedes);
+        } catch (\Throwable $th) {
+            return response()->json(['error' => $th->getMessage()], 400);
+        }
+    }
 }

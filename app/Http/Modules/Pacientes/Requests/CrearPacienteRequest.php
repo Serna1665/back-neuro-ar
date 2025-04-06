@@ -37,7 +37,9 @@ class CrearPacienteRequest extends FormRequest
             'estado_id' => 'required|exists:estados,id',
             'email' => 'required|email',
             'numero_documento' => 'required|integer|unique:users,numero_documento',
-            'usa_lentes' => 'nullable|boolean'
+            'usa_lentes' => 'nullable|boolean',
+            'sede_id' => 'required|exists:sedes,id',
+            'dependencia_id' => 'required|exists:dependencias,id',
         ];
     }
 
