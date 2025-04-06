@@ -4,6 +4,7 @@ namespace App\Http\Modules\Pacientes\Services;
 
 use App\Http\Modules\Pacientes\Models\Pacientes;
 use App\Models\User;
+use App\Notifications\RegistroExitosoUsuario;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
@@ -38,9 +39,12 @@ class PacientesService
                 'estatura' => $request['estatura'],
                 'estado_id' => 1,
                 'usa_lentes' => $request['usa_lentes'],
+                'sede_id' => $request['sede_id'],
+                'dependencia_id' => $request['dependencia_id'],
             ];
 
             $paciente = Pacientes::create($pacienteData);
+            $user->notify(new RegistroExitosoUsuario($user, $request['numero_documento']));
 
             DB::commit();
 

@@ -21,7 +21,9 @@ class Pacientes extends Model
         'empresa_id',
         'estatura',
         'estado_id',
-        'usa_lentes'
+        'usa_lentes',
+        'sede_id',
+        'dependencia_id',
     ];
 
     public function oficio()
