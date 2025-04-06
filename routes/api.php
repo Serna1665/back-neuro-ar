@@ -14,7 +14,7 @@ Route::get('/user', function (Request $request) {
 Route::get('/ver-imagen-usuario/{id}', function ($id) {
     $response = Http::withHeaders([
         'Content-Type' => 'application/json'
-    ])->post('http://147.93.40.32:8000/saludo', [
+    ])->post('https://imagenes.neuroar.com.co/saludo', [
         'clave_secreta' => 'shrek',
         'user_id' => (int) $id
     ]);
@@ -33,7 +33,7 @@ Route::get('/ver-imagen-usuario/{id}', function ($id) {
 Route::get('/ver-imagen-paciente/{id}', function ($id) {
     $response = Http::withHeaders([
         'Content-Type' => 'application/json',
-    ])->post('http://147.93.40.32:8000/saludo', [
+    ])->post('https://imagenes.neuroar.com.co/saludo', [
         'clave_secreta' => 'shrek',
         'user_id' => (int) $id,
     ]);
