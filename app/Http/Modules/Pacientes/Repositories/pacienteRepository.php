@@ -42,8 +42,29 @@ class pacienteRepository
         return Pacientes::where('user_id', $user_id)->with(['municipio'])->first();
     }
 
-    public function obtenerPacienteIdPorUserId($userId)
+    public function listarPacientesPorEmpresa($user_id)
     {
-        return Pacientes::where('user_id', $userId)->first();
+        $paciente = Pacientes::where('user_id', $user_id)->first();
+
+        if (!$paciente || !$paciente->empresa_id) {
+            return [];
+        }
+
+        return Pacientes::select('id', 'nombres', 'apellidos')
+            ->where('empresa_id', $paciente->empresa_id)
+            ->get();
+    }
+
+    public function obtenerPacientesPorEmpresaDeUsuario($user_id)
+    {
+        $paciente = Pacientes::where('user_id', $user_id)->first();
+
+        if (!$paciente || !$paciente->empresa_id) {
+            throw new \Exception('Paciente o empresa no encontrada');
+        }
+
+        return Pacientes::select('id', 'nombres', 'apellidos')
+            ->where('empresa_id', $paciente->empresa_id)
+            ->get();
     }
 }

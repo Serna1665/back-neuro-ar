@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
@@ -25,6 +26,25 @@ Route::get('/ver-imagen-usuario/{id}', function ($id) {
     } else {
         return response()->json([
             'error' => 'No se pudo obtener la imagen'
+        ], $response->status());
+    }
+});
+
+Route::get('/ver-imagen-paciente/{id}', function ($id) {
+    $response = Http::withHeaders([
+        'Content-Type' => 'application/json',
+    ])->post('http://147.93.40.32:8000/saludo', [
+        'clave_secreta' => 'shrek',
+        'user_id' => (int) $id,
+    ]);
+
+    if ($response->successful()) {
+        return response()->json([
+            'imagen_url' => $response['imagen'],
+        ]);
+    } else {
+        return response()->json([
+            'error' => 'No se pudo obtener la imagen del paciente',
         ], $response->status());
     }
 });

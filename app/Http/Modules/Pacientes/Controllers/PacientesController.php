@@ -2,12 +2,14 @@
 
 namespace App\Http\Modules\Pacientes\Controllers;
 
-use App\Http\Controllers\Controller;
-use App\Http\Modules\Pacientes\Repositories\pacienteRepository;
-use App\Http\Modules\Pacientes\Requests\CrearPacienteRequest;
-use App\Http\Modules\Pacientes\Services\PacientesService;
+use App\Models\User;
 use Illuminate\Http\Request;
 use PhpParser\Builder\Function_;
+use Illuminate\Http\JsonResponse;
+use App\Http\Controllers\Controller;
+use App\Http\Modules\Pacientes\Services\PacientesService;
+use App\Http\Modules\Pacientes\Requests\CrearPacienteRequest;
+use App\Http\Modules\Pacientes\Repositories\pacienteRepository;
 
 class PacientesController extends Controller
 {
@@ -56,14 +58,27 @@ class PacientesController extends Controller
         }
     }
 
-    public function obtenerPacienteIdPorUserId($userId)
+    public function listarPacientesPorEmpresa($user_id)
     {
-        $paciente = $this->pacienteRepository->obtenerPacienteIdPorUserId($userId);
+        try {
+            $pacientes = $this->pacienteRepository->listarPacientesPorEmpresa($user_id);
 
-        if (!$paciente) {
-            return response()->json(['error' => 'Paciente no encontrado'], 404);
+            return response()->json($pacientes);
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'Error interno del servidor'], 500);
         }
+    }
 
-        return response()->json(['paciente_id' => $paciente->id]);
+    public function listarPorEmpresaDeUsuario($user_id): JsonResponse
+    {
+        try {
+            $pacientes = $this->pacienteRepository->obtenerPacientesPorEmpresaDeUsuario($user_id);
+            return response()->json($pacientes);
+        } catch (\Throwable $e) {
+            return response()->json([
+                'error' => 'No se pudo obtener los pacientes',
+                'message' => $e->getMessage()
+            ], 500);
+        }
     }
 }
