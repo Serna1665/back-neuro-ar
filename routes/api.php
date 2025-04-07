@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\restablecerContrasenaController;
 use App\Http\Modules\Pacientes\Models\Pacientes;
 
 Route::get('/user', function (Request $request) {
@@ -52,7 +53,9 @@ Route::get('/ver-imagen-paciente/{id}', function ($id) {
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/validar-email', [AuthController::class, 'validarEmail']);
-Route::post('/validar-email', [AuthController::class, 'validarEmail']);
+Route::post('/recuperar-contrasena', [restablecerContrasenaController::class, 'enviarCorreo']);
+Route::post('/validar-token', [restablecerContrasenaController::class, 'validarToken']);
+Route::post('/actualizar-contrasena', [restablecerContrasenaController::class, 'actualizarContrasena']);
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('/me', [AuthController::class, 'me']);
