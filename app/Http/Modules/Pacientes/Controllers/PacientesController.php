@@ -81,4 +81,14 @@ class PacientesController extends Controller
             ], 500);
         }
     }
+
+    public function actualizarDatosPersonales(Request $request)
+    {
+        try {
+            $datos = $this->pacientesService->actualizarDatos($request->all());
+            return response()->json($datos);
+        } catch (\Throwable $th) {
+            return response()->json(['error' => $th->getMessage()], 400);
+        }
+    }
 }
