@@ -78,4 +78,39 @@ class PacientesService
             throw $e;
         }
     }
+
+    public function actualizarDatos(array $data)
+    {
+        DB::beginTransaction();
+
+        try {
+            // Actualizar datos del usuario
+            $user = User::findOrFail($data['user_id']);
+
+            $user->update([
+                'name' => "{$data['nombres']} {$data['apellidos']}",
+                'email' => $data['user']['email'],
+                'password' => !empty($data['password']) ? Hash::make($data['password']) : $user->password,
+                'numero_documento' => $data['numero_documento'],
+            ]);
+
+            // Actualizar datos del paciente
+            $paciente = Pacientes::where('user_id', $data['user_id'])->firstOrFail();
+            $paciente->update([
+                'nombres' => $data['nombres'],
+                'apellidos' => $data['apellidos'],
+                'numero_documento' => $data['numero_documento'],
+            ]);
+
+            DB::commit();
+            return [
+                'message' => 'Datos actualizados correctamente.',
+                'usuario' => $user,
+                'paciente' => $paciente,
+            ];
+        } catch (\Exception $e) {
+            DB::rollBack();
+            throw $e;
+        }
+    }
 }

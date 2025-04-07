@@ -118,8 +118,6 @@
 
         <a href="https://app.neuroar.com.co/recuperacionContrasena/confirmarRecuperacion?token={{ $token }}" class="button">
             Restablecer contraseña
-        </a>
-
         <p style="margin-top: 20px;">Este enlace expirará en unos minutos por seguridad.</p>
     </div>
 

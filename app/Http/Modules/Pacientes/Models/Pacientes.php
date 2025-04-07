@@ -4,6 +4,7 @@ namespace App\Http\Modules\Pacientes\Models;
 
 use App\Http\Modules\Municipios\Models\Municipios;
 use App\Http\Modules\Oficios\Models\Oficios;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 
 class Pacientes extends Model
@@ -34,5 +35,10 @@ class Pacientes extends Model
     public function municipio()
     {
         return $this->belongsTo(Municipios::class, 'municipio_id');
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id');
     }
 }

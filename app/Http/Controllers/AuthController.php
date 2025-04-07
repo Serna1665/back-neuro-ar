@@ -94,6 +94,7 @@ class AuthController extends Controller
                 'created_at' => $user->created_at,
                 'roles' => $roles,
                 'permissions' => $permissions,
+                'paciente' => $user->paciente
             ]
         ]);
     }
@@ -148,6 +149,7 @@ class AuthController extends Controller
                 'created_at' => $user->created_at,
                 'roles' => $roles,
                 'permissions' => $permissions,
+                'paciente' => $user->paciente
             ]
         ]);
     }
