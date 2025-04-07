@@ -39,7 +39,7 @@ class pacienteRepository
      */
     public function datosPaciente($user_id)
     {
-        return Pacientes::where('user_id', $user_id)->with(['municipio'])->first();
+        return Pacientes::where('user_id', $user_id)->with(['user'])->first();
     }
 
     public function listarPacientesPorEmpresa($user_id)

@@ -116,7 +116,7 @@
 
         <p>Haz clic en el siguiente botón para establecer una nueva contraseña:</p>
 
-        <a href="https://app.neuroar.com.co/recuperacionContrasena/confirmarRecuperacion?token={{ $token }}" class="button">
+        <a href="http://localhost:3000/recuperacionContrasena/confirmarRecuperacion?token={{ $token }}" class="button">
             Restablecer contraseña
         </a>
 
