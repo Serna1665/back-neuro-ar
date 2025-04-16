@@ -12,4 +12,5 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/pacientes-empresa/{user_id}', [PacientesController::class, 'listarPacientesPorEmpresa']);
     Route::get('/pacientes-empresa-desde-user/{user_id}', [PacientesController::class, 'listarPorEmpresaDeUsuario']);
     Route::post('/actualizar-datos-personales', [PacientesController::class, 'actualizarDatosPersonales']);
+    Route::post('/pacientes/imagenes-paciente', [PacientesController::class, 'obtenerImagenes']);
 });

@@ -12,44 +12,6 @@ Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:sanctum');
 
-Route::get('/ver-imagen-usuario/{id}', function ($id) {
-    $response = Http::withHeaders([
-        'Content-Type' => 'application/json'
-    ])->post('https://imagenes.neuroar.com.co/saludo', [
-        'clave_secreta' => 'shrek',
-        'user_id' => (int) $id
-    ]);
-
-    if ($response->successful()) {
-        return response()->json([
-            'imagen_url' => $response['imagen']
-        ]);
-    } else {
-        return response()->json([
-            'error' => 'No se pudo obtener la imagen'
-        ], $response->status());
-    }
-});
-
-Route::get('/ver-imagen-paciente/{id}', function ($id) {
-    $response = Http::withHeaders([
-        'Content-Type' => 'application/json',
-    ])->post('https://imagenes.neuroar.com.co/saludo', [
-        'clave_secreta' => 'shrek',
-        'user_id' => (int) $id,
-    ]);
-
-    if ($response->successful()) {
-        return response()->json([
-            'imagen_url' => $response['imagen'],
-        ]);
-    } else {
-        return response()->json([
-            'error' => 'No se pudo obtener la imagen del paciente',
-        ], $response->status());
-    }
-});
-
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/validar-email', [AuthController::class, 'validarEmail']);
