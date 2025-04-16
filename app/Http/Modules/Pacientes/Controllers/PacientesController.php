@@ -6,7 +6,9 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use PhpParser\Builder\Function_;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Http;
 use App\Http\Modules\Pacientes\Services\PacientesService;
 use App\Http\Modules\Pacientes\Requests\CrearPacienteRequest;
 use App\Http\Modules\Pacientes\Repositories\pacienteRepository;
@@ -89,6 +91,38 @@ class PacientesController extends Controller
             return response()->json($datos);
         } catch (\Throwable $th) {
             return response()->json(['error' => $th->getMessage()], 400);
+        }
+    }
+
+    public function obtenerImagenes(Request $request)
+    {
+        $request->validate([
+            'user_id' => 'required|integer',
+        ]);
+
+        try {
+            $response = Http::post('https://imagenes.neuroar.com.co/saludo', [
+                'clave_secreta' => 'shrek',
+                'user_id' => $request->user_id,
+            ]);
+
+            if ($response->successful()) {
+                return response()->json($response->json(), 200);
+            }
+
+            Log::error('Error al obtener imágenes del servidor externo', [
+                'status' => $response->status(),
+                'body' => $response->body(),
+            ]);
+
+            return response()->json(['message' => 'Error al obtener imágenes'], 500);
+        } catch (\Throwable $e) {
+            Log::error('Excepción en obtenerImagenes:', [
+                'message' => $e->getMessage(),
+                'trace' => $e->getTraceAsString(),
+            ]);
+
+            return response()->json(['message' => 'Error interno del servidor'], 500);
         }
     }
 }
