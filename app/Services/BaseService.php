@@ -3,6 +3,8 @@
 namespace App\Services;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Storage;
 
 class BaseService
 {
@@ -90,5 +92,22 @@ class BaseService
             return $registro;
         }
         return null;
+    }
+
+    public function descargarArchivo(int $id, string $campoRuta = 'ruta')
+    {
+        $registro = $this->model->find($id);
+
+        if (!$registro || !isset($registro->$campoRuta)) {
+            throw new \Exception('Archivo no encontrado');
+        }
+
+        $rutaArchivo = $registro->$campoRuta;
+
+        if (!Storage::disk('public')->exists($rutaArchivo)) {
+            throw new \Exception('La ruta del archivo no existe en el almacenamiento');
+        }
+
+        return Storage::disk('public')->download($rutaArchivo);
     }
 }
