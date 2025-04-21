@@ -71,3 +71,14 @@ foreach (glob(__DIR__ . '/Dependencias/*.php') as $filename) {
     require_once $filename;
 }
 
+foreach (glob(__DIR__ . '/CategoriasAdjuntos/*.php') as $filename) {
+    require_once $filename;
+}
+
+foreach (glob(__DIR__ . '/TipoAdjuntos/*.php') as $filename) {
+    require_once $filename;
+}
+foreach (glob(__DIR__ . '/Adjuntos/*.php') as $filename) {
+    require_once $filename;
+}
+
