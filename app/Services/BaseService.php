@@ -103,11 +103,44 @@ class BaseService
         }
 
         $rutaArchivo = $registro->$campoRuta;
+        $nombreArchivo = $registro->nombre;
 
-        if (!Storage::disk('public')->exists($rutaArchivo)) {
+        if (!Storage::disk('ftp_hostinger')->exists($rutaArchivo)) {
             throw new \Exception('La ruta del archivo no existe en el almacenamiento');
         }
 
-        return Storage::disk('public')->download($rutaArchivo);
+        $contenido = Storage::disk('ftp_hostinger')->get($rutaArchivo);
+
+        // Obtener el mime type, si no se obtiene usar un valor por defecto
+        $mimeType = Storage::disk('ftp_hostinger')->mimeType($rutaArchivo) ?? 'application/octet-stream';
+
+        return response($contenido)
+            ->header('Content-Type', $mimeType)
+            ->header('Content-Disposition', 'attachment; filename="' . $nombreArchivo . '"');
+    }
+
+    public function eliminarAdjunto(int $id)
+    {
+        $registro = $this->model->find($id);
+
+        if (!$registro) {
+            throw new \Exception('Adjunto no encontrado en la base de datos.');
+        }
+
+        $rutaArchivo = $registro->ruta;
+
+        // Verifica y elimina el archivo del FTP
+        if (Storage::disk('ftp_hostinger')->exists($rutaArchivo)) {
+            $eliminado = Storage::disk('ftp_hostinger')->delete($rutaArchivo);
+
+            if (!$eliminado) {
+                throw new \Exception('No se pudo eliminar el archivo del FTP.');
+            }
+        }
+
+        // Elimina el registro de la base de datos
+        $registro->delete();
+
+        return response()->json(['mensaje' => 'Adjunto eliminado correctamente']);
     }
 }

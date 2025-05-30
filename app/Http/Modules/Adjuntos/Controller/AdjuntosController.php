@@ -41,4 +41,14 @@ class AdjuntosController extends Controller
             return response()->json(['error' => $th->getMessage()], 400);
         }
     }
+
+    public function eliminarAdjunto($id)
+    {
+        try {
+            $resultado = $this->adjuntosService->eliminarAdjunto($id);
+            return response()->json(['success' => $resultado]);
+        } catch (\Throwable $th) {
+            return response()->json(['error' => $th->getMessage()], 400);
+        }
+    }
 }
